@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 import useUserStore from "@/store/user.store";
+import {startViewTransition} from "vue-view-transitions";
 
 
 function checkAuthStatus(_to: any, _from: any, next: any): void {
@@ -46,5 +47,8 @@ const router = createRouter({
         },
     ],
 });
-
+router.beforeResolve(async () => {
+    const viewTransition = startViewTransition()
+    await viewTransition.captured
+})
 export default router;
