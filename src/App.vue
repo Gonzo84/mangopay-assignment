@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col h-screen overflow-hidden bg-white">
-        <AppHeader></AppHeader>
-        <main class="flex-auto overflow-hidden flex items-center justify-center">
-            <router-view/>
-        </main>
-        <AppFooter></AppFooter>
-    </div>
+  <div class="flex flex-col h-screen overflow-hidden bg-white">
+    <AppHeader></AppHeader>
+    <main class="flex-auto overflow-hidden flex flex-col justify-center">
+      <router-view/>
+    </main>
+    <AppFooter></AppFooter>
+  </div>
 </template>
 
 <script setup lang="ts">

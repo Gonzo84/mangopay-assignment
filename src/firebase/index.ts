@@ -1,5 +1,6 @@
 import {initializeApp} from "firebase/app";
 import {getAuth} from "firebase/auth";
+import {getFirestore , collection} from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCWMNyO-UDITMRJoz5gkdPlFxgQdw3nwIA",
@@ -12,5 +13,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 
+const firebaseDB = getFirestore(firebaseApp)
 
-export {firebaseApp, auth};
+// here we can export reusable database references
+export const tasksRef = collection(firebaseDB, 'tasks')
+
+export {firebaseApp, auth, firebaseDB};

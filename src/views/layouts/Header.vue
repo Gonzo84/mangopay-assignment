@@ -1,14 +1,21 @@
 <template>
-    <header class="w-full text-center border-b border-grey p-4">
+    <header class="w-full text-center border-b border-grey p-2 md:p-4">
         <nav class="w-full flex items-center justify-center relative">
             <template v-if="user">
-                <div class="m-4">Welcome, {{ user.email }}</div>
-                <button class="m-4 absolute top-0 right-0" @click="logOut">Sign out</button>
+                <div class="mx-4">Welcome, {{ user.email }}</div>
+                <button class="absolute top-0 right-0 hover:text-blue-600 hidden md:block" @click="logOut">Sign out
+                </button>
+                <font-awesome-icon class="absolute top-0 right-0 hover:text-blue-600  md:hidden"
+                                   icon="arrow-right-from-bracket" @click="logOut"/>
             </template>
             <template v-if="!user">
-                <router-link activeClass="active-link" class="m-4" :to="{name: 'SignIn'}">Sign In</router-link>
+                <router-link activeClass="active-link text-blue-500" class="mx-4 hover:text-blue-600"
+                             :to="{name: 'SignIn'}">Sign In
+                </router-link>
                 |
-                <router-link activeClass="active-link" class="m-4" :to="{name: 'SignUp'}">Sign Up</router-link>
+                <router-link activeClass="active-link text-blue-500" class="mx-4 hover:text-blue-600"
+                             :to="{name: 'SignUp'}">Sign Up
+                </router-link>
             </template>
         </nav>
     </header>
@@ -28,7 +35,6 @@ const user = computed(() => {
 
 <style scoped lang="scss">
 .active-link {
-    color: rgb(59 130 246);
     text-shadow: 0 0 0.01px rgb(59 130 246);
 }
 </style>
