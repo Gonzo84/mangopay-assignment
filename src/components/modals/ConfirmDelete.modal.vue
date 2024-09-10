@@ -1,5 +1,5 @@
 <template>
-    <BaseModal v-if="show" :show="show" @close-modal="onCloseModal">
+    <BaseModal @close-modal="onCloseModal">
         <div class="flex-auto flex flex-col p-4">
             <div class="text-center my-4 text-2xl">Please confirm action</div>
             <div class="mb-6">Are you sure that you want to delete task with the title "<span
@@ -31,7 +31,6 @@ import {TaskType} from "@/store/tasks.store.ts";
 
 const emit = defineEmits(["closeModal", "deleteConfirmed"]);
 const {taskData} = defineProps<{
-    show: boolean,
     taskData: TaskType | null
 }>()
 const onCloseModal = () => {

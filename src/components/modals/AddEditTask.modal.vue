@@ -1,7 +1,7 @@
 <template>
-    <BaseModal v-if="show" :show="show" @close-modal="onCloseModal">
+    <BaseModal @close-modal="onCloseModal">
         <div class="flex-auto flex flex-col p-4">
-            <div class="text-lg text-center my-4">{{taskData!! ? "Edit" : "Add"}} Task</div>
+            <div class="text-lg text-center my-4">{{ taskData!! ? "Edit" : "Add" }} Task</div>
 
             <form>
                 <div class="mb-4">
@@ -53,7 +53,6 @@ import VueTailwindDatepicker from "vue-tailwind-datepicker";
 
 const emit = defineEmits(["closeModal", "taskAdded", "taskEdited"]);
 const props = defineProps<{
-    show: boolean,
     taskData: TaskType | null
 }>()
 const task = reactive<TaskType>({

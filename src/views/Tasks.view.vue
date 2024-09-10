@@ -10,7 +10,7 @@
             </button>
         </div>
     </div>
-    <AddEditTaskModal :task-data="modalData" :show="showModal" @close-modal="closeModal" @task-added="onTaskAdded"
+    <AddEditTaskModal v-if="showModal" :task-data="modalData" @close-modal="closeModal" @task-added="onTaskAdded"
                  @task-edited="onTaskEdited"></AddEditTaskModal>
 </template>
 
