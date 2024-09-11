@@ -160,3 +160,4 @@ The architecture of the application is designed with a focus on modularity and s
 15. Responsive design for supporting different screen sizes.
 16. Storybook for building and testing UI components in isolation.
 17. Storybook Interaction Testing for testing the interaction of components in Storybook.
+18. DB is seed with 3 tasks and one user "test@test.com" with password "password"
