@@ -1,6 +1,6 @@
 <template>
     <footer class="w-full text-center border-t border-grey p-4">
-        footer
+        totally unnecessary footer <font-awesome-icon icon="poo"/>
     </footer>
 </template>
 

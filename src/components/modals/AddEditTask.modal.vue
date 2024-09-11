@@ -16,7 +16,7 @@
                 </div>
                 <div class="mb-4">
                     <VueTailwindDatepicker input-class="form-input" placeholder="Due Date" v-model="task.dueDate"
-                                           as-single></VueTailwindDatepicker>
+                                           as-single :formatter="formatter"></VueTailwindDatepicker>
                 </div>
                 <div class="mb-6">
                     <select class="form-input" v-model="task.status">
@@ -47,7 +47,7 @@
 </template>
 <script setup lang="ts">
 import BaseModal from "@/components/modals/Base.modal.vue";
-import {reactive, watch} from "vue";
+import {reactive, watch, ref} from "vue";
 import {TaskType} from "@/store/tasks.store.ts";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 
@@ -61,6 +61,10 @@ const task = reactive<TaskType>({
     dueDate: props.taskData?.dueDate || '',
     status: props.taskData?.status || 'pending',
     id: props.taskData?.id || '',
+})
+const formatter = ref({
+    date: 'DD MMM YYYY',
+    month: 'MMM',
 })
 const onCloseModal = () => {
     emit('closeModal', false)

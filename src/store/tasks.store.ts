@@ -2,6 +2,12 @@ import {defineStore} from "pinia";
 
 export type StatusTypes = 'pending' | 'inProgress' | 'completed';
 
+export const STATUS_MAP = {
+    pending: 'Pending',
+    inProgress: 'In Progress',
+    completed: 'Completed'
+}
+
 export type TaskType = {
     id: string;
     title: string;

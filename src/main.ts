@@ -5,11 +5,11 @@ import './style.css'
 import "./firebase";
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faXmark, faArrowRightFromBracket, faTrash, faPen} from '@fortawesome/free-solid-svg-icons';
+import {faXmark, faArrowRightFromBracket, faTrash, faPen, faPoo} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 
-library.add(faXmark, faArrowRightFromBracket, faTrash, faPen);
+library.add(faXmark, faArrowRightFromBracket, faTrash, faPen, faPoo);
 
 const app = createApp(App)
 app.use(router);

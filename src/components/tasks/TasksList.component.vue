@@ -2,9 +2,19 @@
     <template v-if="getAllTasks && getAllTasks.length">
         <div class="bg-white p-4 md:p-8 flex flex-col w-full max-w-3xl">
             <div class="mb-4">
-                <input type="search" v-model="filter"
+                <input type="search" v-model="filterByText"
                        placeholder="Filter tasks by title or description"
                        class="form-input">
+            </div>
+            <div class="mb-4 flex flex-row items-center gap-2">
+                <p v-for="(status, index) in statuses" :key="index">
+          <span
+              @click="filterByStatus(status)"
+              :class="{ active: status === activeStatusFilter }"
+              class="cursor-pointer p-2"
+          >{{ status }}</span
+          >
+                </p>
             </div>
             <transition-group name="list">
                 <TaskCard v-for="task in allTasks" :key="task.id" :task-data="task" @delete-task="onTaskDelete"
@@ -22,7 +32,7 @@
 
 <script setup lang="ts">
 import {storeToRefs} from "pinia";
-import useTasksStore, {TaskType} from "@/store/tasks.store.ts";
+import useTasksStore, {TaskType, STATUS_MAP} from "@/store/tasks.store.ts";
 import TaskCard from "@/components/tasks/TaskCard.component.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.modal.vue";
 import {ref, Ref, computed} from "vue";
@@ -32,14 +42,21 @@ const emit = defineEmits(["edit-task", "delete-task"]);
 const tasksStore = useTasksStore();
 const {getAllTasks} = storeToRefs(tasksStore);
 const showModal = ref(false)
-const filter = ref('')
+const filterByText = ref('')
+const statuses = ref(['All', 'Pending', 'In Progress', 'Completed'])
+const activeStatusFilter = ref('All');
 const allTasks = computed(() => {
     return getAllTasks.value.filter((task: TaskType) => {
-        return task.title.toLowerCase().includes(filter.value.toLowerCase()) ||
-            task.description.toLowerCase().includes(filter.value.toLowerCase())
+        const filteredTasks = task.title.toLowerCase().includes(filterByText.value.toLowerCase()) ||
+            task.description.toLowerCase().includes(filterByText.value.toLowerCase())
+        return filteredTasks && (activeStatusFilter.value === 'All' || STATUS_MAP[task.status] === activeStatusFilter.value)
     })
 })
 let modalData: Ref<TaskType | null> = ref(null);
+
+const filterByStatus = (status: string) => {
+    activeStatusFilter.value = status;
+}
 const onTaskDelete = (taskData: TaskType) => {
     showModal.value = true;
     modalData.value = taskData;
@@ -81,5 +98,10 @@ const onTaskEdit = (taskData: TaskType) => {
         border-color: #4f46e5;
         outline: none;
     }
+}
+.active {
+    background: #5e8df7;
+    color: #fff;
+    border-radius: 4px;
 }
 </style>
