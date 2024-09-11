@@ -1,5 +1,5 @@
 <template>
-    <header class="w-full text-center border-b border-grey p-2 md:p-4">
+    <header class="w-full text-center border-b border-grey p-2 md:p-4 text-gray-600 font-mono">
         <nav class="w-full flex items-center justify-center relative">
             <template v-if="user">
                 <div class="mx-4">Welcome, {{ user.email }}</div>

@@ -3,14 +3,14 @@
         <div class="flex-auto flex flex-col p-4">
             <div class="text-center my-4 text-2xl">Please confirm action</div>
             <div class="mb-6">Are you sure that you want to delete task with the title "<span
-                class="font-bold text-center text-gray-700">{{ taskData?.title }}</span>"
+                class="font-bold text-center text-gray-600">{{ taskData?.title }}</span>"
             </div>
 
             <div class="flex flex-row w-full justify-around items-center">
                 <button
                     type="button"
                     class="w-1/3
-                       text-black border-solid border border-gray-600 hover:bg-gray-200 font-semibold p-2
+                       text-gray-600 border-solid border border-gray-600 hover:bg-gray-200 font-semibold p-2
                        rounded-md focus:outline-none"
                     @click="onCloseModal"
                 >

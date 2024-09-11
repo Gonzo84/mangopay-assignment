@@ -6,18 +6,22 @@
                        placeholder="Filter tasks by title or description"
                        class="form-input">
             </div>
-            <div class="mb-4 flex flex-row items-center gap-2">
-                <p v-for="(status, index) in statuses" :key="index">
+            <div class="mb-4 flex flex-row items-center">
+                <div class="flex-auto flex flex-row items-center gap-2">
+                    <p v-for="(status, index) in statuses" :key="index">
           <span
               @click="filterByStatus(status)"
               :class="{ active: status === activeStatusFilter }"
               class="cursor-pointer p-2"
           >{{ status }}</span
           >
-                </p>
+                    </p>
+                </div>
+                <div class="cursor-pointer p-2" v-if="sortOrder === 'asc'" @click="toggleSortOrder"><font-awesome-icon icon="arrow-down-1-9"/></div>
+                <div class="cursor-pointer p-2" v-else @click="toggleSortOrder"><font-awesome-icon icon="arrow-up-1-9"/></div>
             </div>
             <transition-group name="list">
-                <TaskCard v-for="task in allTasks" :key="task.id" :task-data="task" @delete-task="onTaskDelete"
+                <TaskCard v-for="task in sortedTasks" :key="task.id" :task-data="task" @delete-task="onTaskDelete"
                           @edit-task="onTaskEdit">
                 </TaskCard>
             </transition-group>
@@ -43,8 +47,11 @@ const tasksStore = useTasksStore();
 const {getAllTasks} = storeToRefs(tasksStore);
 const showModal = ref(false)
 const filterByText = ref('')
+const sortOrder = ref('asc'); // 'asc' for ascending, 'desc' for descending
 const statuses = ref(['All', 'Pending', 'In Progress', 'Completed'])
 const activeStatusFilter = ref('All');
+let modalData: Ref<TaskType | null> = ref(null);
+
 const allTasks = computed(() => {
     return getAllTasks.value.filter((task: TaskType) => {
         const filteredTasks = task.title.toLowerCase().includes(filterByText.value.toLowerCase()) ||
@@ -52,7 +59,19 @@ const allTasks = computed(() => {
         return filteredTasks && (activeStatusFilter.value === 'All' || STATUS_MAP[task.status] === activeStatusFilter.value)
     })
 })
-let modalData: Ref<TaskType | null> = ref(null);
+const sortedTasks = computed(() => {
+    const sorted = [...allTasks.value];
+    sorted.sort((a, b) => {
+        const dateA = new Date(a.dueDate);
+        const dateB = new Date(b.dueDate);
+        return sortOrder.value === 'asc' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
+    });
+    return sorted;
+});
+
+const toggleSortOrder = () => {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+}
 
 const filterByStatus = (status: string) => {
     activeStatusFilter.value = status;
@@ -69,7 +88,6 @@ const onDeleteConfirmed = () => {
 const onTaskEdit = (taskData: TaskType) => {
     emit('edit-task', taskData);
 }
-
 </script>
 <style scoped lang="scss">
 .list-enter-active, .list-leave-active {
@@ -99,6 +117,7 @@ const onTaskEdit = (taskData: TaskType) => {
         outline: none;
     }
 }
+
 .active {
     background: #5e8df7;
     color: #fff;

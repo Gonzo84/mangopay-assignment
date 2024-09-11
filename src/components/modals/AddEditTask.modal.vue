@@ -29,7 +29,7 @@
                     <button
                         type="button"
                         class="w-1/3
-                       text-black border-solid border border-gray-600 hover:bg-gray-200 font-semibold p-2
+                       text-gray-600 border-solid border border-gray-600 hover:bg-gray-200 font-semibold p-2
                        rounded-md focus:outline-none"
                         @click="onCloseModal"
                     >

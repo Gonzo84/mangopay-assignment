@@ -5,8 +5,8 @@
 
 
     <div class="fixed inset-0 flex items-center justify-center">
-      <div class="bg-white text-black rounded-lg p-4 w-full max-w-md relative modal-animation">
-        <div class="absolute top-0 right-2 text-gray-500 hover:text-gray-700 cursor-pointer text-2xl" @click="handleCloseModal"><font-awesome-icon icon="xmark" /></div>
+      <div class="bg-white text-gray-600 rounded-lg p-4 w-full max-w-md relative modal-animation font-mono">
+        <div class="absolute top-0 right-2 text-gray-600 hover:text-gray-700 cursor-pointer text-2xl" @click="handleCloseModal"><font-awesome-icon icon="xmark" /></div>
         <slot></slot>
       </div>
     </div>
