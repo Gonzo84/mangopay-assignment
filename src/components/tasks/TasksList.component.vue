@@ -28,7 +28,7 @@
         </div>
     </template>
     <template v-else>
-        <div>No tasks are currently available. Create the new task</div>
+        <div>No tasks are currently available. Create a new task</div>
     </template>
     <ConfirmDelete v-if="showModal" :task-data="modalData" @close-modal="showModal = false"
                    @delete-confirmed="onDeleteConfirmed"></ConfirmDelete>
