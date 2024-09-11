@@ -1,8 +1,13 @@
 <template>
     <template v-if="getAllTasks && getAllTasks.length">
         <div class="bg-white p-4 md:p-8 flex flex-col w-full max-w-3xl">
+            <div class="mb-4">
+                <input type="search" v-model="filter"
+                       placeholder="Filter tasks by title or description"
+                       class="form-input">
+            </div>
             <transition-group name="list">
-                <TaskCard v-for="task in getAllTasks" :key="task.id" :task-data="task" @delete-task="onTaskDelete"
+                <TaskCard v-for="task in allTasks" :key="task.id" :task-data="task" @delete-task="onTaskDelete"
                           @edit-task="onTaskEdit">
                 </TaskCard>
             </transition-group>
@@ -20,13 +25,20 @@ import {storeToRefs} from "pinia";
 import useTasksStore, {TaskType} from "@/store/tasks.store.ts";
 import TaskCard from "@/components/tasks/TaskCard.component.vue";
 import ConfirmDelete from "@/components/modals/ConfirmDelete.modal.vue";
-import {ref, Ref} from "vue";
+import {ref, Ref, computed} from "vue";
 
 const emit = defineEmits(["edit-task", "delete-task"]);
 
 const tasksStore = useTasksStore();
 const {getAllTasks} = storeToRefs(tasksStore);
 const showModal = ref(false)
+const filter = ref('')
+const allTasks = computed(() => {
+    return getAllTasks.value.filter((task: TaskType) => {
+        return task.title.toLowerCase().includes(filter.value.toLowerCase()) ||
+            task.description.toLowerCase().includes(filter.value.toLowerCase())
+    })
+})
 let modalData: Ref<TaskType | null> = ref(null);
 const onTaskDelete = (taskData: TaskType) => {
     showModal.value = true;
@@ -57,4 +69,17 @@ const onTaskEdit = (taskData: TaskType) => {
     transform: translateY(0);
 }
 
+.form-input {
+    transition: border-color 0.3s ease;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+
+    &:focus {
+        border-color: #4f46e5;
+        outline: none;
+    }
+}
 </style>

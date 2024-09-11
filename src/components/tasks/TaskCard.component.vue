@@ -1,6 +1,6 @@
 <template>
     <div
-        class="kanban-card bg-gray-100 rounded-lg shadow p-3 mb-2 cursor-pointer"
+        class="kanban-card bg-gray-100 rounded-lg shadow p-4 mb-4 cursor-pointer"
         @click="editTask">
         <h3 class="text-center text-2xl mb-2">{{ taskData.title }}</h3>
         <p class="mb-2">{{ taskData.description }}</p>
