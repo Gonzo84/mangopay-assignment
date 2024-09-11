@@ -26,11 +26,13 @@ import {computed} from "vue";
 import {logOut} from "@/services/Auth.service.ts";
 import useUserStore from "@/store/user.store.ts";
 
-const userStore = useUserStore()
+// Reference to the user store
+const userStore = useUserStore();
 
+// Computed property that returns the current user
 const user = computed(() => {
     return userStore.getUser;
-})
+});
 </script>
 
 <style scoped lang="scss">

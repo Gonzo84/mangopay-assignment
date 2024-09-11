@@ -11,7 +11,7 @@
         </div>
     </div>
     <AddEditTaskModal v-if="showModal" :task-data="modalData" @close-modal="closeModal" @task-added="onTaskAdded"
-                 @task-edited="onTaskEdited"></AddEditTaskModal>
+                      @task-edited="onTaskEdited"></AddEditTaskModal>
 </template>
 
 <script setup lang="ts">
@@ -23,18 +23,29 @@ import {Unsubscribe} from "firebase/firestore";
 import {TaskType} from "@/store/tasks.store.ts";
 import useTasksStore from "@/store/tasks.store.ts";
 
+// Reference to the tasks store
 const tasksStore = useTasksStore();
-const unmountRef = ref<Unsubscribe | null>(null);
-const showModal = ref(false)
-let modalData: Ref<TaskType | null> = ref(null)
+
+// Reference to the unsubscribe function returned by monitorTasksCollection
+const unsubscribeRef = ref<Unsubscribe | null>(null);
+
+// Reactive property to control the visibility of the modal
+const showModal = ref(false);
+
+// Reactive property to hold the data of the task being edited
+let modalData: Ref<TaskType | null> = ref(null);
+
+// Method to open the task edit modal with the provided task data
 const openTaskEditModal = (taskData: TaskType) => {
     modalData.value = taskData;
     showModal.value = true;
-}
+};
+// Method to close the modal and reset the modal data
 const closeModal = () => {
     showModal.value = false;
     modalData.value = null;
-}
+};
+// Method to add a new task
 const onTaskAdded = (taskData: TaskType) => {
     addTask(taskData)
         .then(() => {
@@ -44,7 +55,9 @@ const onTaskAdded = (taskData: TaskType) => {
             console.error(err);
             closeModal();
         });
-}
+};
+
+// Method to delete a task
 const onTaskDelete = (taskData: TaskType) => {
     deleteTask(taskData.id)
         .then(() => {
@@ -54,7 +67,9 @@ const onTaskDelete = (taskData: TaskType) => {
             console.error(err);
             closeModal();
         });
-}
+};
+
+// Method to edit a task
 const onTaskEdited = (taskData: TaskType) => {
     updateTask(taskData)
         .then(() => {
@@ -64,14 +79,18 @@ const onTaskEdited = (taskData: TaskType) => {
             console.error(err);
             closeModal();
         });
-}
+};
+
+// Lifecycle hook that is called when the component is mounted
 onMounted(() => {
-    unmountRef.value = monitorTasksCollection();
+    unsubscribeRef.value = monitorTasksCollection();
 });
+
+// Lifecycle hook that is called when the component is unmounted
 onUnmounted(() => {
     tasksStore.resetStore();
-    if (unmountRef.value) {
-        unmountRef.value();
+    if (unsubscribeRef.value) {
+        unsubscribeRef.value();
     }
 });
 </script>

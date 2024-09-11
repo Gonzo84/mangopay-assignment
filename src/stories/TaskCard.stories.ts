@@ -6,15 +6,15 @@ export default {
     component: TaskCard,
 };
 
-const Template = (args) => ({
-    components: { TaskCard },
+const Template = (args: any) => ({
+    components: {TaskCard},
     setup() {
-        return { args };
+        return {args};
     },
     template: '<task-card v-bind="args" />',
 });
 
-export const Default = Template.bind({});
+export const Default: any = Template.bind({});
 Default.args = {
     taskData: {
         title: 'Test Task 1',
@@ -25,7 +25,7 @@ Default.args = {
     },
 };
 
-export const Completed = Template.bind({});
+export const Completed: any = Template.bind({});
 Completed.args = {
     taskData: {
         title: 'Test Task 2',

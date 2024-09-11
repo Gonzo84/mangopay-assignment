@@ -43,34 +43,43 @@
 import {ref, reactive} from 'vue'
 import {signUpWithEmailAndPassword, UserCredentials} from "@/services/Auth.service.ts";
 
+// Type for the registration credentials, extends UserCredentials with a confirmPassword field
 type RegisterCredentials = UserCredentials & { confirmPassword: string };
 
+// Reactive object for the registration credentials
 const credentials = reactive<RegisterCredentials>({
-  email: '',
-  password: '',
-  confirmPassword: ''
-})
-const error = ref<string | null>(null)
+    email: '',
+    password: '',
+    confirmPassword: ''
+});
 
+// Reference for the error message
+const error = ref<string | null>(null);
+
+// Method for the registration process
 const register = () => {
-  if (credentials.email.trim() === "" ||
-      credentials.password.trim() === "" || credentials.confirmPassword.trim() === "") {
-    error.value = 'Please fill in all fields.'
-    return;
-  }
-  if (credentials.password !== credentials.confirmPassword) {
-    error.value = 'Passwords do not match.'
-    return;
-  }
-  signUpWithEmailAndPassword(credentials)
-      .then(() => {
-        // Signed up
-        error.value = null
-      })
-      .catch((err) => {
-        error.value = err.message
-      });
-}
+    // Check if all fields are filled
+    if (credentials.email.trim() === "" ||
+        credentials.password.trim() === "" || credentials.confirmPassword.trim() === "") {
+        error.value = 'Please fill in all fields.'
+        return;
+    }
+    // Check if the passwords match
+    if (credentials.password !== credentials.confirmPassword) {
+        error.value = 'Passwords do not match.'
+        return;
+    }
+    // Attempt to sign up with the provided credentials
+    signUpWithEmailAndPassword(credentials)
+        .then(() => {
+            // If successful, clear the error message
+            error.value = null
+        })
+        .catch((err) => {
+            // If an error occurs, set the error message
+            error.value = err.message
+        });
+};
 </script>
 <style scoped lang="scss">
 .form-input {

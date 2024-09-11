@@ -13,11 +13,6 @@ function checkAuthStatus(_to: any, _from: any, next: any): void {
     }
 }
 
-export const navigateOnAuthChange = (): void => {
-    const isLoggedIn = useUserStore().isLoggedIn;
-    isLoggedIn ? router.push({name: "Home"}) : router.push({name: "SignIn"});
-};
-
 const router = createRouter({
     history: createWebHistory(),
     routes: [

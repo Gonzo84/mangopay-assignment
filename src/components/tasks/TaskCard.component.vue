@@ -29,16 +29,20 @@
 <script setup lang="ts">
 import {TaskType, STATUS_MAP} from "@/store/tasks.store.js";
 
+// Define the props for the component
 const props = defineProps<{
-    taskData: TaskType
+    taskData: TaskType // The task data to be displayed in the card
 }>()
 
+// Define the events that this component can emit
 const emit = defineEmits(["delete-task", "edit-task"]);
 
+// Method to emit the 'delete-task' event
 const deleteTask = () => {
     emit('delete-task', props.taskData);
 };
 
+// Method to emit the 'edit-task' event
 const editTask = () => {
     emit('edit-task', props.taskData);
 };

@@ -51,10 +51,15 @@ import {reactive, watch, ref} from "vue";
 import {TaskType} from "@/store/tasks.store.ts";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 
+// Define the events that this component can emit
 const emit = defineEmits(["closeModal", "taskAdded", "taskEdited"]);
+
+// Define the props for the component
 const props = defineProps<{
-    taskData: TaskType | null
+    taskData: TaskType | null // The task data to be displayed in the modal
 }>()
+
+// Reactive object for the task data
 const task = reactive<TaskType>({
     title: props.taskData?.title || '',
     description: props.taskData?.description || '',
@@ -62,22 +67,34 @@ const task = reactive<TaskType>({
     status: props.taskData?.status || 'pending',
     id: props.taskData?.id || '',
 })
+
+// Formatter for the datepicker
 const formatter = ref({
     date: 'DD MMM YYYY',
     month: 'MMM',
 })
+
+// Method to emit the 'closeModal' event and close the modal
 const onCloseModal = () => {
-    emit('closeModal', false)
+    emit('closeModal', false) // Emit the 'closeModal' event with false
 }
+
+// Method to save the task data
 const onSave = () => {
-    props.taskData ? editTask() : addNewTask()
+    props.taskData ? editTask() : addNewTask() // If task data is present, edit the task, otherwise add a new task
 }
+
+// Method to emit the 'taskAdded' event with the task data
 const addNewTask = () => {
-    emit('taskAdded', task)
+    emit('taskAdded', task) // Emit the 'taskAdded' event with the task data
 }
+
+// Method to emit the 'taskEdited' event with the task data
 const editTask = () => {
-    emit('taskEdited', task)
+    emit('taskEdited', task) // Emit the 'taskEdited' event with the task data
 }
+
+// Watcher to update the task data when the prop changes
 watch(() => props.taskData, (newVal) => {
     task.title = newVal?.title || ''
     task.description = newVal?.description || ''

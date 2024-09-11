@@ -22,7 +22,7 @@
           In
         </button>
       </form>
-      <div class="py-4 text-sm text-red-800">{{ error }}</div>
+      <div role="alert" class="py-4 text-sm text-red-800">{{ error }}</div>
       <p class=" mt-4 text-sm text-center
                   text-gray-600">Don't have an account?
         <router-link class="text-blue-500 hover:underline" :to="{name: 'SignUp'}"> Sign up here</router-link>
@@ -32,30 +32,37 @@
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from 'vue'
+import {ref, reactive} from 'vue';
 import {loginWithEmailAndPassword, UserCredentials} from "@/services/Auth.service.ts";
 
+// Reactive object for the login credentials
 const credentials = reactive<UserCredentials>({
-  email: '',
-  password: ''
-})
-const error = ref<string | null>(null)
+    email: '',
+    password: ''
+});
 
+// Reference for the error message
+const error = ref<string | null>(null);
+
+// Method for the sign-in process
 const signIn = () => {
-  if (credentials.email.trim() === "" ||
-      credentials.password.trim() === "") {
-    error.value = 'Please fill in all fields.'
-    return;
-  }
-  loginWithEmailAndPassword(credentials)
-      .then(() => {
-        // Signed up
-        error.value = null
-      })
-      .catch((err) => {
-        error.value = err.message
-      });
-}
+    // Check if all fields are filled
+    if (credentials.email.trim() === "" ||
+        credentials.password.trim() === "") {
+        error.value = 'Please fill in all fields.'
+        return;
+    }
+    // Attempt to sign in with the provided credentials
+    loginWithEmailAndPassword(credentials)
+        .then(() => {
+            // If successful, clear the error message
+            error.value = null;
+        })
+        .catch((err) => {
+            // If an error occurs, set the error message
+            error.value = err.message;
+        });
+};
 </script>
 <style scoped lang="scss">
 .form-input {

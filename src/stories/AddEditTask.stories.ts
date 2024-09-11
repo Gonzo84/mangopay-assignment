@@ -1,24 +1,30 @@
 // AddEditTask.stories.ts
 import AddEditTask from '@/components/modals/AddEditTask.modal.vue';
+import {TaskType} from '@/store/tasks.store.ts';
+
+type ArgsType = {
+    taskData: TaskType | null;
+};
 
 export default {
     title: 'Components/AddEditTask',
     component: AddEditTask,
 };
 
-const Template = (args) => ({
-    components: { AddEditTask },
+const Template = (args: ArgsType) => ({
+    components: {AddEditTask},
     setup() {
-        return { args };
+        return {args};
     },
     template: '<div id="modals" class="relative z-20"></div><add-edit-task v-bind="args" />',
 });
 
-export const Default = Template.bind({});
+export const Default: any = Template.bind({});
 Default.args = {
     taskData: null,
 };
-export const Pending = Template.bind({});
+
+export const Pending: any = Template.bind({});
 Pending.args = {
     taskData: {
         title: 'Test Task',
@@ -29,7 +35,7 @@ Pending.args = {
     },
 };
 
-export const InProgress = Template.bind({});
+export const InProgress: any = Template.bind({});
 InProgress.args = {
     taskData: {
         title: 'Test Task',
@@ -39,7 +45,8 @@ InProgress.args = {
         id: '2',
     },
 };
-export const Completed = Template.bind({});
+
+export const Completed: any = Template.bind({});
 Completed.args = {
     taskData: {
         title: 'Test Task',

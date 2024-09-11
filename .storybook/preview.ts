@@ -21,8 +21,8 @@ library.add(faXmark, faArrowRightFromBracket, faTrash, faPen, faPoo, faArrowDown
 const pinia = createPinia();
 
 setup((app: App) => {
-    app.component('font-awesome-icon', FontAwesomeIcon)
     app.use(pinia);
+    app.component('font-awesome-icon', FontAwesomeIcon)
 })
 const preview: Preview = {
     parameters: {

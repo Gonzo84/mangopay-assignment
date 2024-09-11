@@ -29,16 +29,23 @@
 import BaseModal from "@/components/modals/Base.modal.vue";
 import {TaskType} from "@/store/tasks.store.ts";
 
+// Define the events that this component can emit
 const emit = defineEmits(["closeModal", "deleteConfirmed"]);
+
+// Define the props for the component
 const {taskData} = defineProps<{
-    taskData: TaskType | null
+    taskData: TaskType | null // The task data to be displayed in the modal
 }>()
+
+// Method to emit the 'closeModal' event and close the modal
 const onCloseModal = () => {
-    emit('closeModal', false)
+    emit('closeModal', false); // Emit the 'closeModal' event with false
 }
+
+// Method to emit the 'deleteConfirmed' event and close the modal
 const onDelete = () => {
-    emit('deleteConfirmed')
-    onCloseModal()
+    emit('deleteConfirmed'); // Emit the 'deleteConfirmed' event
+    onCloseModal(); // Close the modal
 }
 </script>
 

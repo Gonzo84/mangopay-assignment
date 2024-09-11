@@ -43,15 +43,24 @@ import {ref, Ref, computed} from "vue";
 
 const emit = defineEmits(["edit-task", "delete-task"]);
 
+// Get the tasks store
 const tasksStore = useTasksStore();
+// Get all tasks from the tasks store
 const {getAllTasks} = storeToRefs(tasksStore);
+// Reference for the delete confirmation modal visibility
 const showModal = ref(false)
+// Reference for the text filter
 const filterByText = ref('')
-const sortOrder = ref('asc'); // 'asc' for ascending, 'desc' for descending
+// Reference for the sort order ('asc' for ascending, 'desc' for descending)
+const sortOrder = ref('asc');
+// Array of status filters
 const statuses = ref(['All', 'Pending', 'In Progress', 'Completed'])
+// Reference for the active status filter
 const activeStatusFilter = ref('All');
+// Reference for the task data in the delete confirmation modal
 let modalData: Ref<TaskType | null> = ref(null);
 
+// Computed property for all tasks that match the text filter and status filter
 const allTasks = computed(() => {
     return getAllTasks.value.filter((task: TaskType) => {
         const filteredTasks = task.title.toLowerCase().includes(filterByText.value.toLowerCase()) ||
@@ -59,6 +68,8 @@ const allTasks = computed(() => {
         return filteredTasks && (activeStatusFilter.value === 'All' || STATUS_MAP[task.status] === activeStatusFilter.value)
     })
 })
+
+// Computed property for all tasks sorted by due date
 const sortedTasks = computed(() => {
     const sorted = [...allTasks.value];
     sorted.sort((a, b) => {
@@ -69,22 +80,27 @@ const sortedTasks = computed(() => {
     return sorted;
 });
 
+// Method to toggle the sort order
 const toggleSortOrder = () => {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
 }
 
+// Method to set the active status filter
 const filterByStatus = (status: string) => {
     activeStatusFilter.value = status;
 }
+// Method to show the delete confirmation modal
 const onTaskDelete = (taskData: TaskType) => {
     showModal.value = true;
     modalData.value = taskData;
 }
+// Method to handle the delete confirmation
 const onDeleteConfirmed = () => {
     emit('delete-task', modalData.value);
     showModal.value = false;
     modalData.value = null;
 }
+// Method to emit the 'edit-task' event
 const onTaskEdit = (taskData: TaskType) => {
     emit('edit-task', taskData);
 }
